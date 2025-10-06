@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+.hover-techy {
+          position: relative;
+          display: inline-block;
+          background: linear-gradient(90deg, #a855f7, #4f46e5, #f472b6, #a855f7);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          transition: all 0.3s ease-in-out;
+        }
+        .hover-techy:hover {
+          transform: skewX(-3deg) translateY(-2px);
+          background-position: 100% center;
+        }

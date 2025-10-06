@@ -6,7 +6,7 @@ export default function Footer() {
                 <h2 
                     className="text-3xl md:text-4xl font-bold mb-4"
                 >
-                    Get in <span className="text-purple-400">Touch</span>
+                    Get in <span className="text-purple-400 hover-techy">Touch</span>
                 </h2>
                 <p 
                     className="text-neutral-400 mb-8"

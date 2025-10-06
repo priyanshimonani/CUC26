@@ -20,7 +20,7 @@ export default function Header() {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg">
             <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-                <a href="#" className="text-2xl font-bold text-purple-400">CUC_2026</a>
+                <a href="#" className="text-2xl font-bold text-purple-400">CodeUnCode</a>
                 <div className="hidden md:flex space-x-8 items-center">
                     {navLinks.map(link => (
                          <a key={link.href} href={link.href} className="text-purple-400 hover:text-purple-300 transition-colors duration-300">{link.label}</a>

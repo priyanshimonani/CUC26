@@ -41,36 +41,12 @@ export default function Timeline() {
         .pulse-dot {
           animation: pulse-dot 1.5s infinite ease-in-out;
         }
-        .hover-techy {
-          position: relative;
-          display: inline-block;
-          transition: all 0.3s ease-in-out;
-        }
-        .hover-techy::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0%;
-          height: 2px;
-          background: linear-gradient(90deg, #a855f7, #4f46e5, #f472b6);
-          transition: width 0.4s ease;
-        }
-        .hover-techy:hover::after {
-          width: 100%;
-        }
-        .hover-techy:hover {
-          background: linear-gradient(90deg, #a855f7, #4f46e5, #f472b6);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          
-          transform: skewX(-3deg) translateY(-2px);
-        }
+        
       `}</style>
 
       <div className="container mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-          Event <span className="text-purple-400">Timeline</span>
+          Event <span className="text-purple-400 hover-techy">Timeline</span>
         </h2>
         <div className="relative max-w-2xl mx-auto">
           {/* Vertical Line */}

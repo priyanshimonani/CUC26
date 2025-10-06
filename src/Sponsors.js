@@ -9,7 +9,7 @@ export default function Sponsors() {
                 <h2 
                     className="text-4xl md:text-5xl font-bold mb-12"
                 >
-                    Our Awesome <span className="text-purple-400">Sponsors</span>
+                    Our Awesome <span className="text-purple-400 hover-techy">Sponsors</span>
                 </h2>
                  <div 
                     className="flex flex-wrap justify-center items-center gap-8"

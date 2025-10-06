@@ -6,26 +6,39 @@ export default function HeroSection() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
+    const particleCount = 200;
     const particles = [];
     const colors = ["#a855f7", "#4f46e5", "#f472b6", "#ffffff"];
 
-    for (let i = 0; i < 80; i++) {
+    // Initialize particles with angular movement
+    for (let i = 0; i < particleCount; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * width,
+        y: Math.random() * height,
         radius: Math.random() * 2 + 1,
         color: colors[Math.floor(Math.random() * colors.length)],
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5,
+        dirX: Math.random() < 0.5 ? 1 : -1,
+        dirY: Math.random() < 0.5 ? 1 : -1,
+        speed: Math.random() * 0.5 + 0.2,
       });
     }
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw particles and connecting lines like circuits
+      particles.forEach((p, index) => {
+        // Move particles in angular paths
+        p.x += p.speed * p.dirX;
+        p.y += p.speed * p.dirY;
+
+        if (p.x < 0 || p.x > width) p.dirX *= -1;
+        if (p.y < 0 || p.y > height) p.dirY *= -1;
+
+        // Draw particle
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
@@ -33,44 +46,59 @@ export default function HeroSection() {
         ctx.shadowBlur = 10;
         ctx.fill();
 
-        p.x += p.dx;
-        p.y += p.dy;
-
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        // Draw connecting lines to nearest particles
+        for (let j = index + 1; j < particles.length; j++) {
+          const dx = p.x - particles[j].x;
+          const dy = p.y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.strokeStyle = `rgba(168,85,247,${1 - dist / 120})`;
+            ctx.lineWidth = 1.2;
+            ctx.shadowColor = "#a855f7";
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
       });
-      requestAnimationFrame(animate);
+
+      requestAnimationFrame(draw);
     };
 
-    animate();
+    draw();
 
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     };
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center text-center bg-grid-pattern relative overflow-hidden">
-      {/* Particle Canvas */}
+    <section className="min-h-screen flex items-center justify-center text-center relative overflow-hidden">
+      {/* Circuit-style Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 z-0"></canvas>
+      <div className="absolute inset-0 bg-black/70 z-0"></div>
 
-      {/* Original Hero Content */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0"></div>
+      {/* Hero Content */}
       <div className="z-10 p-4">
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black">
           <span className="text-purple-400 hover-techy">CodeUnCode</span> 2026
         </h1>
-        <p className="text-lg md:text-2xl mt-4 text-neutral-300 max-w-3xl mx-auto">
-          Where innovation meets implementation. The ultimate 48-hour hackathon for creators, thinkers, and builders.
+        <p className="text-lg md:text-2xl mt-4 text-neutral-300 max-w-3xl mx-auto text-purple-500">
+          Where innovation meets implementation.
+        </p>
+        <p className="text-lg md:text-2xl mt-2 text-neutral-300 max-w-3xl mx-auto">
+          The ultimate 48-hour hackathon for creators, thinkers, and builders.
         </p>
         <div className="mt-10">
-          <a href="#register" className="text-purple-400 font-bold text-lg">
+          <a
+            href="#register"
+            className="relative inline-block px-6 py-3 text-purple-400 font-bold border-2 border-purple-400 rounded hover:bg-purple-400 hover:text-black transition-all duration-300"
+          >
             Join the Revolution
           </a>
         </div>
@@ -85,19 +113,6 @@ export default function HeroSection() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           transition: all 0.3s ease-in-out;
-        }
-        .hover-techy::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0%;
-          height: 2px;
-          background: linear-gradient(90deg, #a855f7, #4f46e5, #f472b6);
-          transition: width 0.4s ease;
-        }
-        .hover-techy:hover::after {
-          width: 100%;
         }
         .hover-techy:hover {
           transform: skewX(-3deg) translateY(-2px);
